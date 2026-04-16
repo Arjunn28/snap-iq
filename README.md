@@ -4,17 +4,16 @@
 
 **Live Demo:** [snap-iq-kappa.vercel.app](https://snap-iq-kappa.vercel.app)
 **Backend API:** [snap-iq.onrender.com/health](https://snap-iq.onrender.com/health)
-**Author:** Arjun A N
 
 ---
 
 ## What are we looking at?
 
-Most document AI projects work with clean digital text — PDFs you can copy from, spreadsheets you can parse, APIs that return JSON.
+Most document AI projects work with clean digital text PDFs you can copy from, spreadsheets you can parse, APIs that return JSON.
 
 This project handles the messiest input in any business: a photo.
 
-Invoices that arrive as WhatsApp images. Receipts photographed on a desk. Delivery notes scanned on a phone. SnapIQ reads them the same way a human would — by looking at them — and returns structured data in milliseconds.
+Invoices that arrive as WhatsApp images. Receipts photographed on a desk. Delivery notes scanned on a phone. SnapIQ reads them the same way a human would: By looking at them; and returns structured data in seconds.
 
 This is multimodal AI engineering: combining vision and language in a single inference call to extract meaning from unstructured visual input.
 
@@ -26,11 +25,11 @@ This is multimodal AI engineering: combining vision and language in a single inf
 
 Every automation pipeline has a physical world problem. You can build the most sophisticated ERP workflow in the world, but if your invoices arrive as photos, someone still has to manually read them and type the data in.
 
-That manual step is the bottleneck. It is slow, error-prone, and does not scale.
+That manual step is the bottleneck. It is slow, error-prone and does not scale.
 
 SnapIQ removes it. Upload the image, get the JSON, pipe it wherever you need it.
 
-**Target users:** Finance teams, operations managers, small business owners, and developers building document automation pipelines who need to extract structured data from business document images without manual entry.
+**Target users:** Finance teams, operations managers, small business owners and developers building document automation pipelines who need to extract structured data from business document images without manual entry.
 
 ---
 
@@ -46,7 +45,7 @@ Base64 encoding is how binary image data travels safely over HTTP as text. This 
 
 The FastAPI backend receives the image and constructs a multimodal request: a structured extraction prompt paired with the raw image bytes, sent together to a vision-capable LLM.
 
-The model reads the image the same way a human does — it sees the layout, recognizes vendor logos, reads printed text, understands table structure — and follows the prompt to return only a JSON object.
+The model reads the image the same way a human does: it sees the layout, recognizes vendor logos, reads printed text, understands table structure and follows the prompt to return only a JSON object.
 
 ```
 Image upload (JPG / PNG / WEBP)
@@ -182,7 +181,7 @@ Get a free OpenRouter API key at [openrouter.ai](https://openrouter.ai). No cred
 | Typical vision demo | SnapIQ |
 |---------------------|--------|
 | "Describe this image" | Structured field extraction with a strict JSON schema |
-| Single hardcoded model | Model-agnostic via OpenRouter — swap models without code changes |
+| Single hardcoded model | Model-agnostic via OpenRouter: swap models without code changes |
 | No error handling | Pydantic validation, JSON parse fallback, typed HTTP errors |
 | Frontend calls API directly | Dedicated backend handles encoding, prompt construction, parsing |
 | Works on one document type | Handles receipts, invoices, delivery notes, any business document |
