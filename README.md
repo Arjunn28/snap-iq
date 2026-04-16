@@ -1,41 +1,74 @@
-# SnapIQ — Business Document Intelligence
+# SnapIQ
 
-> The missing first step in every automation pipeline — turning physical documents into structured data.
+Upload a photo of any business document and get back clean, structured data instantly.
 
-Upload a photo of any business document (receipt, invoice, delivery note) and get back clean structured JSON — vendor, date, line items, totals — plus a plain-English summary.
+Vendor, date, line items, totals, currency — extracted by a vision AI and returned as JSON. No manual entry, no templates, no configuration.
 
-## Part of a portfolio suite
-| Project | What it does |
-|---------|-------------|
-| [RetailIQ Copilot](https://github.com/Arjunn28/retail-iq-copilot) | Retail insights for stakeholders |
-| [Retail Agent](https://github.com/Arjunn28/retail-agent) | Automates retail workflows |
-| [DocCypher](https://github.com/Arjunn28/doc-cypher) | Extract answers from large PDFs |
-| **SnapIQ** | **Turn document images into structured data** |
+![SnapIQ Demo](assets/snap-iq-overview-ss.png)
 
-## What it demonstrates
-- Multimodal API integration (vision + language)
-- Prompt engineering for structured extraction
-- FastAPI image handling with base64 encoding
-- Clean single-page React frontend
+**Live demo:** https://snap-iq-kappa.vercel.app
 
-## Stack
-- **Backend**: FastAPI + Anthropic Claude Vision API
-- **Frontend**: React + Vite + Tailwind CSS
-- **Hosting**: Render (backend) + Vercel (frontend)
+---
+
+## What it does
+
+Point it at a receipt, invoice, or delivery note. It reads the image, understands the document, and returns structured output ready to plug into any downstream system — a CRM, an ERP, a Slack bot, whatever.
+
+```
+Image upload
+     |
+Base64 encode
+     |
+POST /analyze  (FastAPI)
+     |
+Vision LLM reads image + prompt
+     |
+JSON: vendor · date · line items · total · currency · summary
+     |
+React renders result card
+```
+
+---
+
+## Tech stack
+
+| Layer | Tool |
+|-------|------|
+| Frontend | React + Vite + Tailwind CSS |
+| Backend | FastAPI (Python) |
+| Vision AI | Multimodal LLM via OpenRouter |
+| Hosting | Vercel (frontend) + Render (backend) |
+
+---
+
+## Why I built this
+
+Every automation pipeline has a blind spot: physical documents. Invoices arrive as photos. Receipts get scanned. Delivery notes come in on paper.
+
+SnapIQ is the intake layer that converts those images into structured data before the rest of the workflow takes over. It pairs naturally with my other projects:
+
+| Project | What it handles |
+|---------|----------------|
+| [RetailIQ Copilot](https://github.com/Arjunn28/retail-iq-copilot) | Text queries from business stakeholders |
+| [Retail Agent](https://github.com/Arjunn28/retail-agent) | Automated retail workflow execution |
+| [DocCypher](https://github.com/Arjunn28/doc-cypher) | Large PDF analysis and Q&A |
+| SnapIQ | Image documents to structured data |
+
+---
 
 ## Run locally
 
-### Backend
+**Backend**
 ```bash
 cd backend
 python -m venv .venv
-source .venv/bin/activate      # Windows: .venv\Scripts\activate
+source .venv/bin/activate
 pip install -r requirements.txt
-cp ../.env.example ../.env     # add your ANTHROPIC_API_KEY
+echo "OPENROUTER_API_KEY=your_key_here" > .env
 uvicorn main:app --reload
 ```
 
-### Frontend
+**Frontend**
 ```bash
 cd frontend
 npm install
@@ -45,17 +78,33 @@ npm run dev
 
 Open http://localhost:5173
 
-## How it works
+---
+
+## API
+
+`POST /analyze`
+
+![SnapIQ Demo](assets/snap-iq-output-ss.png)
+
+Accepts a multipart image upload. Returns:
+
+```json
+{
+  "vendor": "Amazon",
+  "date": "08 March 2025",
+  "currency": "GBP",
+  "line_items": [
+    { "description": "Oral-B Pro 2500 Toothbrush", "amount": 40.70 }
+  ],
+  "subtotal": null,
+  "tax": 6.78,
+  "total": 40.70,
+  "summary": "Invoice from Amazon for an Oral-B electric toothbrush. Total amount due is 40.70 GBP including VAT."
+}
 ```
-Upload image
-     ↓
-Base64 encode in frontend
-     ↓
-POST /analyze to FastAPI
-     ↓
-Claude Vision reads image + structured prompt
-     ↓
-JSON: vendor · date · line items · total · summary
-     ↓
-Rendered as clean card UI
-```
+
+`GET /health` returns `{"status": "ok"}`
+
+---
+
+Built by Arjun AN · 2026
