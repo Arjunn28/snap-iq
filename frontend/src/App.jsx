@@ -266,7 +266,7 @@ export default function App() {
 
       {/* Footer */}
       <footer className="py-4 text-center">
-        <p className="text-xs text-gray-400">SnapIQ · by Arjun AN · 2026</p>
+        <p className="text-xs text-gray-400">SnapIQ · Built by Arjun · 2026</p>
       </footer>
     </div>
   );
